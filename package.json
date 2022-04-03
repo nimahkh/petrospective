@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Petrospective",
   "scripts": {
-    "serve": "npm serve:client && server:api",
-    "serve:client": "npm serve --prefix client",
-    "serve:api": "npm serve --prefix server"
+    "serve": "npm run serve:client && npm run server:api",
+    "serve:client": "npm run serve --prefix client",
+    "serve:api": "npm run serve --prefix server"
   },
   "license": "ISC"
 }
