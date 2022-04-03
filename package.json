@@ -1,0 +1,11 @@
+{
+  "name": "server-template",
+  "version": "1.0.0",
+  "description": "Petrospective",
+  "scripts": {
+    "serve": "npm serve:client && server:api",
+    "serve:client": "npm serve --prefix client",
+    "serve:api": "npm serve --prefix server"
+  },
+  "license": "ISC"
+}
