@@ -9,23 +9,29 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10",
-    "vue-router": "^3.0.3"
+    "@tinymce/tinymce-vue": "^4.0.7",
+    "core-js": "^3.21.1",
+    "pinia": "^2.0.13",
+    "vue": "3.2.31",
+    "vue-3-socket.io": "^1.0.5",
+    "vue-router": "4.0.14"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-plugin-eslint": "^3.8.0",
-    "@vue/cli-plugin-unit-mocha": "^4.5.11",
-    "@vue/cli-service": "^4.5.11",
-    "@vue/eslint-config-prettier": "^4.0.1",
-    "@vue/test-utils": "1.0.0-beta.29",
-    "babel-eslint": "^10.0.1",
+    "@vue/cli-plugin-babel": "5.0.4",
+    "@vue/cli-plugin-eslint": "5.0.4",
+    "@vue/cli-plugin-unit-mocha": "5.0.4",
+    "@vue/cli-service": "5.0.4",
+    "@vue/eslint-config-prettier": "7.0.0",
+    "@vue/test-utils": "^2.0.0-rc.17",
+    "autoprefixer": "^10.4.4",
+    "babel-eslint": "10.1.0",
     "chai": "^4.1.2",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "lint-staged": "^8.1.5",
-    "vue-template-compiler": "^2.6.10"
+    "eslint": "8.12.0",
+    "eslint-plugin-vue": "8.5.0",
+    "lint-staged": "^12.3.7",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23",
+    "vue-template-compiler": "^2.6.14"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

@@ -1,22 +1,13 @@
-import Vue from "vue";
-import Router from "vue-router";
-import Home from "./views/Home.vue";
+import {createRouter, createWebHistory} from "vue-router";
 
-Vue.use(Router);
+// these are passed to `createRouter`
+const routes = [
+  // dynamic segments start with a colon.
+  { path: '/', component: ()=>import('./views/RegisterFlow') },
+  { path: '/table', component: ()=>import('./views/RetroTable') },
+]
 
-export default new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: Home
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: () => import("./views/About.vue")
-    }
-  ]
+export default createRouter({
+  history: createWebHistory(),
+  routes,
 });
