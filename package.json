@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Petrospective",
   "scripts": {
-    "serve": "npm run serve:client && npm run server:api",
+    "start": "npm run serve:client && npm run server:api",
     "serve:client": "npm run serve --prefix client",
     "serve:api": "npm run serve --prefix server"
   },
