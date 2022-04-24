@@ -4,7 +4,8 @@ import {createRouter, createWebHistory} from "vue-router";
 const routes = [
   // dynamic segments start with a colon.
   { path: '/', component: ()=>import('./views/RegisterFlow') },
-  { path: '/table', component: ()=>import('./views/RetroTable') },
+  { path: '/table/:room_name', component: ()=>import('./views/RetroTable') },
+  { path: '/room', component: ()=>import('./views/RegisterRoom') },
 ]
 
 export default createRouter({

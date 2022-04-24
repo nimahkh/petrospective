@@ -4,7 +4,7 @@
     @keyup.enter="handleSubmit"
   >
     <input
-      ref="input"
+      ref="name"
       type="search"
       class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
       placeholder="Name"
@@ -22,17 +22,47 @@
 
 <script setup>
 
-import {onMounted, ref} from "vue";
-import router from "@/router"
 
-const input = ref(null)
+import {onMounted, ref, defineEmits} from "vue";
+import "@/utilities";
+import localforage from "localforage";
+import { useRoute } from 'vue-router'
+import {decrypt} from "@/utilities";
+
+const route = useRoute();
+const showError = ref(false)
+const name = ref(null)
+const emit = defineEmits(['register_user'])
 
 onMounted(()=>{
-  input.value.focus()
+  name.value.focus()
 })
 
+function validateInputs() {
+  return name.value.value;
+}
+
 function handleSubmit() {
-  router.push('/table?name='+input.value.value)
+  showError.value = false;
+  if(!validateInputs()) {
+    showError.value = true;
+    return;
+  }
+  registerUser();
+}
+
+function registerUser() {
+  const roomHashCode = route.params?.room_name
+  const roomSettings = {
+    owner: false,
+    room_name: decrypt('petros',roomHashCode),
+    room_hash: roomHashCode,
+    name: name.value.value
+  };
+
+  localforage.setItem('room', roomSettings, function () {
+    emit('register_user', roomSettings)
+  });
 }
 
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <div class="rounded bg-gray-200 flex-no-shrink p-2 mr-3">
+  <div class="rounded-lg bg-gray-700 flex-no-shrink p-2 mr-3">
     <div class="flex justify-between py-1">
       <div
-        contenteditable
-        class="text-sm w-full outline-none"
+        :contenteditable="state.owner"
+        class="text-sm w-full text-white outline-none"
         @input="handleChangeTitle"
       >
         {{ title }}
@@ -19,9 +19,10 @@
 <script setup>
 import {defineProps, computed, defineEmits } from "vue";
 import {AddComment, CommentsList} from "./Components";
+import {useUser} from "../store";
 
 const emit = defineEmits(['update:title'])
-
+const state = useUser();
 const props = defineProps({
   info: {
     type: Object,
