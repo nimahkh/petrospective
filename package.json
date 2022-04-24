@@ -7,5 +7,8 @@
     "serve:client": "npm run serve --prefix client",
     "serve:api": "npm run serve --prefix server"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }

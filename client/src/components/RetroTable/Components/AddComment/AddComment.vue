@@ -37,8 +37,8 @@ import {useTables} from "../../store";
 const store = useTables();
 const props = defineProps({
   tableId: {
-    type: Number,
-    default: 1,
+    type: String,
+    default: '',
     required: true
   }
 })

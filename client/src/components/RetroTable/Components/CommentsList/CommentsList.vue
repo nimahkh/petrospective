@@ -25,8 +25,8 @@ import {defineProps} from "vue";
 const store= useTables();
 defineProps({
   tableId: {
-    type: Number,
-    default: 1,
+    type: String,
+    default: '',
     required: true
   }
 })

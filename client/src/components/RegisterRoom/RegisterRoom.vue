@@ -83,7 +83,17 @@ function createRoom() {
     room_name: roomName,
     name: name.value.value
   };
-  addNewRoom({room_name: roomName, room_hash:roomHashCode, owner: name.value.value }).then( _ =>{
+  const dataObject ={
+    room_name: roomName,
+    room_hash:roomHashCode,
+    owner: name.value.value,
+    columns: {
+      first: {title: 'Sad', id: 'first'},
+      second: {title: 'Glad', id: 'second'},
+      third: {title: 'Action points', id: 'third'},
+    }
+  }
+  addNewRoom(dataObject).then( _ =>{
     localforage.setItem('room', roomSettings, function () {
       useUser().$patch(roomSettings)
       router.push(`/table/${roomHashCode}`)

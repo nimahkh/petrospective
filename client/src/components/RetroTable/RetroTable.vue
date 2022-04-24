@@ -21,6 +21,9 @@ import {defineProps, computed, defineEmits } from "vue";
 import {AddComment, CommentsList} from "./Components";
 import {useUser} from "../store";
 
+import debounce from 'lodash/debounce';
+import {updateRoom} from "@/Api";
+
 const emit = defineEmits(['update:title'])
 const state = useUser();
 const props = defineProps({
@@ -33,13 +36,30 @@ const props = defineProps({
     default: '',
   },
   tableId: {
-    type: Number,
-    default: 1,
+    type: String,
+    default: '',
+  },
+  objectId: {
+    type: String,
+    default: '',
+  },
+  item: {
+    type: Object,
+    default: ()=>({}),
+  },
+  columns: {
+    type: Object,
+    default: ()=>({}),
   }
 })
 
 const handleChangeTitle = (e) => {
   title.value = e.target.innerText;
+
+  const save = debounce(() => {
+    saveColumn()
+  }, 500);
+  save();
 }
 
 const title = computed({
@@ -50,4 +70,17 @@ const title = computed({
     emit('update:title', value)
   }
 })
+
+function saveColumn() {
+  const allColumns = props.columns;
+  allColumns[props.item.id] = {title: title.value, id:props.item.id};
+  const data = {
+    columns: allColumns
+  }
+
+  updateRoom(data, props.objectId).then(res=>{
+    console.log({res})
+  })
+}
+
 </script>

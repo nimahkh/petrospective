@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LoadingBar v-if="loading"/>
+    <LoadingBar v-if="loading" />
     <div v-else>
       <UserDetails />
       <div
@@ -8,16 +8,13 @@
         class="flex px-4 pb-8 items-start overflow-x-scroll grid grid-cols-3"
       >
         <RetroTable
-          v-model:title="columns.first.title"
-          :table-id="columns.first.id"
-        />
-        <RetroTable
-          v-model:title="columns.second.title"
-          :table-id="columns.second.id"
-        />
-        <RetroTable
-          v-model:title="columns.third.title"
-          :table-id="columns.third.id"
+          v-for="(column, index) in columns"
+          :key="index"
+          v-model:title="column.title"
+          :object-id="object_id"
+          :item="column"
+          :columns="columns"
+          :table-id="column.id"
         />
       </div>
       <RegisterFlow
@@ -33,7 +30,6 @@ import {ref, onMounted, onBeforeMount} from "vue";
 import RetroTable from '@/components/RetroTable';
 import UserDetails from "@/components/UserDetails";
 import {useUser} from "@/components/store";
-import {reactive} from 'vue'
 import localforage from "localforage";
 import RegisterFlow from "../RegisterFlow/RegisterFlow";
 import router from '@/router';
@@ -46,6 +42,9 @@ const isRegistered = ref(true);
 const name  = ref('');
 const room_name  = ref('');
 const owner  = ref('');
+const columns  = ref({});
+const object_id  = ref({});
+
 const route = useRoute();
 const loading = ref(true)
 
@@ -72,8 +71,11 @@ function roomExists(){
     const {data} = res;
     loading.value = false;
     if(data.length === 0 ){
-      router.push('/room')
+      router.push('/room');
+      return false;
     }
+    columns.value = data[0].columns;
+    object_id.value = data[0]._id
   });
 }
 
@@ -91,11 +93,5 @@ function registerUser(roomSettings) {
   owner.value = roomSettings.owner;
   isRegistered.value = true;
 }
-
-const columns = reactive({
-  first: {title: 'Sad', id: 1},
-  second: {title: 'Glad', id: 2},
-  third: {title: 'Action points', id: 3},
-})
 
 </script>

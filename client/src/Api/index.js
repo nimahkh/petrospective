@@ -9,8 +9,12 @@ export const addNewRoom = (data)=>{
 }
 
 export const getRoom = (room)=>{
-    const searchOject = JSON.stringify({
+    const searchObject = JSON.stringify({
      room_name: room
     })
-    return axios.get(`${baseurl}/rooms?q=${searchOject}`);
+    return axios.get(`${baseurl}/rooms?q=${searchObject}`);
+}
+
+export const updateRoom = (data, id)=>{
+    return axios.put(`${baseurl}/rooms/${id}`, data);
 }
