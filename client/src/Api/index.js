@@ -8,6 +8,10 @@ export const addNewRoom = (data)=>{
     return axios.post(`${baseurl}/rooms`, data);
 }
 
+export const addNewComment = (data)=>{
+    return axios.post(`${baseurl}/card`, data);
+}
+
 export const getRoom = (room)=>{
     const searchObject = JSON.stringify({
      room_name: room

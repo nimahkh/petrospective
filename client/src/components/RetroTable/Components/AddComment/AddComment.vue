@@ -33,7 +33,10 @@
 import Editor from '@tinymce/tinymce-vue'
 import {reactive, onMounted, onUnmounted, ref, defineProps} from "vue";
 import {useTables} from "../../store";
+import {useRoute} from "vue-router";
+import {useUser} from "@/components/store";
 
+const route = useRoute();
 const store = useTables();
 const props = defineProps({
   tableId: {
@@ -79,13 +82,18 @@ const storeComment = () => {
       id: props.tableId
     },
     comment: comment.value,
-    user_name: 'Nima'
+    user_name: useUser()?.name
   }
-  store.addComment(commentData)
+  const data={
+    room_id: route.params?.room_name,
+    category: props.tableId,
+    comment: comment.value,
+    user: useUser()?.name
+  };
+  store.addComment({commentData, data})
 }
 
 const removeEditorValue = () => {
-  console.log("Remove editor value")
   comment.value = ''
 }
 

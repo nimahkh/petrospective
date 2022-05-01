@@ -20,14 +20,50 @@
 
 <script setup>
 import {useTables} from "../../store";
-import {defineProps} from "vue";
+import {defineProps, onMounted, onUnmounted} from "vue";
+import socket from "@/socket/index.js"
+import {useUser} from "../../../store";
+import {useRoute} from "vue-router";
 
 const store= useTables();
-defineProps({
+const route = useRoute();
+
+const props = defineProps({
   tableId: {
     type: String,
     default: '',
     required: true
+  }
+})
+
+const fetchCommentsRealtime=(e)=>{
+  const {data} = e;
+  const commentItem =JSON.parse(data)?.data;
+  const newComment = {
+    table: {
+      id: props.tableId
+    },
+    comment : commentItem.comment,
+    user_name : commentItem.user
+  }
+  if(dataValid(commentItem)) {
+    store.$state.comments.push(newComment)
+  }
+}
+
+const dataValid = (commentItem)=>{
+  return props.tableId === commentItem.category && commentItem.user !== useUser()?.name && commentItem.room_id === route.params?.room_name;
+}
+
+onMounted(()=>{
+  if(socket) {
+    socket.addEventListener('post', fetchCommentsRealtime, false);
+  }
+})
+
+onUnmounted(()=>{
+  if(socket) {
+    socket.removeEventListener('post', fetchCommentsRealtime, false);
   }
 })
 </script>

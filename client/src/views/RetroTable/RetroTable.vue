@@ -31,7 +31,7 @@ import RetroTable from '@/components/RetroTable';
 import UserDetails from "@/components/UserDetails";
 import {useUser} from "@/components/store";
 import localforage from "localforage";
-import RegisterFlow from "../RegisterFlow/RegisterFlow";
+import RegisterFlow from "../RegisterFlow";
 import router from '@/router';
 import {useRoute} from 'vue-router';
 import {getRoom} from '@/Api'

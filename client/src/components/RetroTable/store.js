@@ -1,4 +1,5 @@
 import {defineStore} from "pinia";
+import {addNewComment} from "@/Api"
 
 export const useTables = defineStore('tables', {
     state: () => ({
@@ -11,8 +12,9 @@ export const useTables = defineStore('tables', {
         },
     },
     actions: {
-        addComment(item) {
-            this.comments.push(item)
+        addComment({commentData, data}) {
+            this.comments.push(commentData);
+            addNewComment(data);
         },
     },
 })
