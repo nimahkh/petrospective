@@ -7,7 +7,7 @@ export const useTables = defineStore('tables', {
     }),
     getters: {
         getItems: (state) => state.comments,
-            getItemsByTitleID: (state) => {
+        getItemsByTitleID: (state) => {
             return (tableId) => state.comments.filter((comment) => comment?.table?.id === tableId)
         },
     },

@@ -29,7 +29,7 @@
 import {ref, onMounted, onBeforeMount} from "vue";
 import RetroTable from '@/components/RetroTable';
 import UserDetails from "@/components/UserDetails";
-import {useUser} from "@/components/store";
+import {useUser, useRoom} from "@/components/store";
 import localforage from "localforage";
 import RegisterFlow from "../RegisterFlow";
 import router from '@/router';
@@ -75,7 +75,10 @@ function roomExists(){
       return false;
     }
     columns.value = data[0].columns;
-    object_id.value = data[0]._id
+    object_id.value = data[0]._id;
+    const {is_unmasked, room_hash, _id} = data[0];
+    console.log(_id)
+    useRoom().$patch({is_unmasked, room_hash, room_id: _id})
   });
 }
 

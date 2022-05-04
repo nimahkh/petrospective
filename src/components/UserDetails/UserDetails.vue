@@ -31,7 +31,8 @@
 
 <script setup>
 import {ref} from 'vue';
-import {useUser} from "@/components/store";
+import {useUser, useRoom} from "@/components/store";
+import {updateRoom} from "@/Api";
 
 const store = useUser();
 const isMasked = ref(false)
@@ -40,7 +41,11 @@ function handleUnMask() {
   if(isMasked.value) {
     return;
   }
-  isMasked.value = true
+
+  updateRoom({is_unmasked:true}, useRoom().room_id).then(_=>{
+    useRoom().setUnMasked(true)
+    isMasked.value = true
+  })
 }
 
 </script>

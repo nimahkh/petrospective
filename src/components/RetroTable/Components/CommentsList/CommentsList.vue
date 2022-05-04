@@ -4,29 +4,23 @@
     :key="item"
     class="bg-white p-2 rounded mt-2 border-b rounded-lg border-gray cursor-pointer hover:bg-gray-lighter"
   >
-    <span v-html="item.comment" />
-    <hr>
-    <div
-      class="divide-solid text-gray-800er mt-2 ml-2 flex justify-end items-center"
-    >
-      <span class="mr-2">{{ item.user_name }}</span>
-      <img
-        src="https://i.imgur.com/OZaT7jl.png"
-        class="rounded-full"
-      >
-    </div>
+    <CommentItem
+      :item="item"
+      :is-unmasked="is_unmasked"/>
   </div>
 </template>
 
 <script setup>
 import {useTables} from "../../store";
-import {defineProps, onMounted, onUnmounted} from "vue";
+import {defineProps, onMounted, onUnmounted, toRefs} from "vue";
 import socket from "@/socket/index.js"
-import {useUser} from "../../../store";
+import {useUser, useRoom} from "../../../store";
 import {useRoute} from "vue-router";
+import CommentItem from "./CommentItem.vue"
 
 const store= useTables();
 const route = useRoute();
+const {is_unmasked} = toRefs(useRoom().getRoom);
 
 const props = defineProps({
   tableId: {
