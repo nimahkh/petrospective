@@ -32,7 +32,7 @@
 <script setup>
 import Editor from '@tinymce/tinymce-vue'
 import {reactive, onMounted, onUnmounted, ref, defineProps} from "vue";
-import {useTables} from "../../store";
+import {useTables} from "@/components/RetroTable/store"
 import {useRoute} from "vue-router";
 import {useUser} from "@/components/store";
 
@@ -94,7 +94,7 @@ const storeComment = () => {
     user_id: useUser().user_id,
     avatar: useUser().avatar,
   };
-  store.addComment({commentData, data})
+  store.addCommentByAPI({commentData, data})
 }
 
 const removeEditorValue = () => {

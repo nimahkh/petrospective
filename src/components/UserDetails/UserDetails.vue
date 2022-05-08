@@ -7,7 +7,10 @@
       <ul class="list-reset text-white hidden md:flex">
         <li>
           <span class="flex mr-2 rounded bg-gray-200 hover:text-orange-700 text-orange-600 font-bold py-2 px-4">
-            <span class="mr-2" v-html="store.avatar"/>
+            <span
+              class="mr-2"
+              v-html="store.avatar"
+            />
             <span>{{ store.name }}</span>
           </span>
         </li>
@@ -33,24 +36,51 @@
             Log out
           </span>
         </li>
+        <ConfirmationModal
+          v-if="showModal"
+          @delete_room="deleterRoomAndLogout"
+          @cancel="hideModal"
+        />
       </ul>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {ref, toRefs} from 'vue';
 import {useUser, useRoom} from "@/components/store";
 import {useTables} from "@/components/RetroTable/store"
-import {updateRoom} from "@/Api";
+import {updateRoom, deleteRoomByID, deleteCardByRoomID} from "@/Api";
 import localforage from "localforage";
 import {useRouter} from 'vue-router'
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 const router = useRouter();
 const store = useUser();
-const isMasked = ref(false)
+const {is_unmasked: isMasked} = toRefs(useRoom().getRoom);
+const showModal = ref(false);
+
+function hideModal() {
+  showModal.value = false;
+}
 
 function Logout() {
+  if(store.owner) {
+    showModal.value = true;
+    return false;
+  }
+  doLogout();
+}
+
+function deleterRoomAndLogout() {
+  hideModal();
+  const room_id = useRoom().room_id;
+  deleteRoomByID(room_id).then(_=>{
+    doLogout()
+  })
+}
+
+function doLogout() {
   localforage.clear();
   router.push('/room');
   useUser().$reset();

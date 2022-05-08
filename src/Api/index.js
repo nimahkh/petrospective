@@ -26,6 +26,17 @@ export const getRoomByID = (id)=>{
     return axios.get(`${baseurl}/rooms?q=${searchObject}`);
 }
 
+export const getCommentsByRoomID = (room_id)=>{
+    const searchObject = JSON.stringify({
+     room_id
+    })
+    return axios.get(`${baseurl}/card?q=${searchObject}`);
+}
+
 export const updateRoom = (data, id)=>{
     return axios.put(`${baseurl}/rooms/${id}`, data);
+}
+
+export const deleteRoomByID = (id) => {
+    return axios.delete(`${baseurl}/rooms/${id}`)
 }

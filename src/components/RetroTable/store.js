@@ -12,9 +12,12 @@ export const useTables = defineStore('tables', {
         },
     },
     actions: {
-        addComment({commentData, data}) {
+        addCommentByAPI({commentData, data}) {
             this.comments.push(commentData);
             addNewComment(data);
+        },
+        addComment(commentData) {
+            this.comments.push(commentData);
         },
     },
 })

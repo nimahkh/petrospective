@@ -35,6 +35,7 @@ import {ref, onMounted, onBeforeMount, onUnmounted} from "vue";
 import RetroTable from '@/components/RetroTable';
 import UserDetails from "@/components/UserDetails";
 import {useUser, useRoom} from "@/components/store";
+import {useTables} from "@/components/RetroTable/store"
 import localforage from "localforage";
 import RegisterFlow from "../RegisterFlow";
 import router from '@/router';
@@ -43,7 +44,7 @@ import {getRoom} from '@/Api'
 import {decrypt} from "@/utilities";
 import LoadingBar from "@/components/LoadingBar";
 import AnnouncementBar from "@/components/AnnouncementBar";
-import {getRoomByID} from "@/Api"
+import {getRoomByID, getCommentsByRoomID} from "@/Api"
 import socket from "@/socket/index.js"
 import avatar from 'animal-avatar-generator';
 
@@ -97,7 +98,26 @@ function roomExists(){
     object_id.value = data[0]._id;
     const {is_unmasked, room_hash, _id} = data[0];
     useRoom().$patch({is_unmasked, room_hash, room_id: _id})
+    getComments(room_hash)
   });
+}
+
+function getComments(room_id){
+  getCommentsByRoomID(room_id).then(res=>{
+    const {data} = res;
+    data.forEach((item)=>{
+      const payload = {
+        table: {
+          id: item.category
+        },
+        comment: item.comment,
+        user_name: item.user,
+        user_id: item.user_id,
+        avatar: item.avatar,
+      }
+      useTables().addComment(payload)
+    });
+  })
 }
 
 function userHasBeenRegistered(userDetails) {
@@ -109,7 +129,6 @@ function registerUser(roomSettings) {
   if(!detail){
     return false;
   }
-  detail.user_id = new Date().getTime();
   detail.avatar = avatar(detail.name, { size: 24 })
 
   useUser().$patch(detail);

@@ -81,7 +81,8 @@ function createRoom() {
     owner: true,
     room_hash: roomHashCode,
     room_name: roomName,
-    name: name.value.value
+    name: name.value.value,
+    user_id: new Date().getTime()
   };
   const dataObject ={
     room_name: roomName,

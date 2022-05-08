@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import {useTables} from "../../store";
+import {useTables} from "@/components/RetroTable/store"
 import {defineProps, onMounted, onUnmounted, toRefs} from "vue";
 import socket from "@/socket/index.js"
 import {useUser, useRoom} from "@/components/store";

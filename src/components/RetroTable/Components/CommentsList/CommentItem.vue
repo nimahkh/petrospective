@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import {computed, defineProps} from "vue";
+import {computed, defineProps, onMounted} from "vue";
 import {useUser} from "@/components/store";
 
 const props = defineProps({
@@ -35,6 +35,10 @@ const props = defineProps({
     default: false,
     required: true
   }
+})
+
+onMounted(()=>{
+  console.log(props.item.user_id, useUser().user_id)
 })
 
 const revealComment = computed(()=>{

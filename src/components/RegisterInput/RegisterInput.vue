@@ -57,7 +57,8 @@ function registerUser() {
     owner: false,
     room_name: decrypt('petros',roomHashCode),
     room_hash: roomHashCode,
-    name: name.value.value
+    name: name.value.value,
+    user_id : new Date().getTime()
   };
 
   localforage.setItem('room', roomSettings, function () {
