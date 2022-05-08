@@ -11,7 +11,7 @@ const socket = {
     put(){
         evtSource.addEventListener('put', function (e) {
             const {data} = e;
-            return data;
+            return JSON.parse(data)?.data;
         }, false);
     },
     publish(){

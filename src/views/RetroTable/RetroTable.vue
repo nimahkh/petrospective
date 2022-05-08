@@ -4,8 +4,13 @@
     <div v-else>
       <UserDetails />
       <div
+        class="flex m-4 justify-center align-center items-center text-center"
+      >
+        <AnnouncementBar />
+      </div>
+      <div
         v-if="isRegistered"
-        class="flex px-4 pb-8 items-start overflow-x-scroll grid grid-cols-3"
+        class="flex px-4 pb-8 items-start overflow-x-scroll grid grid-cols-3 gap-3"
       >
         <RetroTable
           v-for="(column, index) in columns"
@@ -26,7 +31,7 @@
 </template>
 
 <script setup>
-import {ref, onMounted, onBeforeMount} from "vue";
+import {ref, onMounted, onBeforeMount, onUnmounted} from "vue";
 import RetroTable from '@/components/RetroTable';
 import UserDetails from "@/components/UserDetails";
 import {useUser, useRoom} from "@/components/store";
@@ -37,6 +42,10 @@ import {useRoute} from 'vue-router';
 import {getRoom} from '@/Api'
 import {decrypt} from "@/utilities";
 import LoadingBar from "@/components/LoadingBar";
+import AnnouncementBar from "@/components/AnnouncementBar";
+import {getRoomByID} from "@/Api"
+import socket from "@/socket/index.js"
+import avatar from 'animal-avatar-generator';
 
 const isRegistered = ref(true);
 const name  = ref('');
@@ -58,11 +67,21 @@ onBeforeMount(()=>{
 
 onMounted(()=> {
   localforage.getItem('room').then( res => {
-    if(!userHasBeenRegistered(res) ){
-      isRegistered.value = false;
-    }
-    registerUser(res)
+      if (!userHasBeenRegistered(res)) {
+        isRegistered.value = false;
+        return false;
+      }
+      registerUser(res)
   })
+  if(socket) {
+    socket.addEventListener('put', fetchRoomIsUnmasked, false);
+  }
+})
+
+onUnmounted(()=>{
+  if(socket) {
+    socket.removeEventListener('put', fetchRoomIsUnmasked, false);
+  }
 })
 
 function roomExists(){
@@ -77,7 +96,6 @@ function roomExists(){
     columns.value = data[0].columns;
     object_id.value = data[0]._id;
     const {is_unmasked, room_hash, _id} = data[0];
-    console.log(_id)
     useRoom().$patch({is_unmasked, room_hash, room_id: _id})
   });
 }
@@ -87,14 +105,30 @@ function userHasBeenRegistered(userDetails) {
 }
 
 function registerUser(roomSettings) {
-  if(!roomSettings){
+  const detail = {...roomSettings};
+  if(!detail){
     return false;
   }
-  useUser().$patch(roomSettings);
-  name.value = roomSettings.name;
-  room_name.value = roomSettings.room_name;
-  owner.value = roomSettings.owner;
+  detail.user_id = new Date().getTime();
+  detail.avatar = avatar(detail.name, { size: 24 })
+
+  useUser().$patch(detail);
+  name.value = detail.name;
+  room_name.value = detail.room_name;
+  owner.value = detail.owner;
   isRegistered.value = true;
+}
+
+const fetchRoomIsUnmasked = (e)=>{
+  const {data} = e;
+  const id = JSON.parse(data)?.data;
+  getRoomByID(id).then(res=> {
+    if(res) {
+      const {data} = res;
+      const {is_unmasked} = data[0];
+      useRoom().setUnMasked(is_unmasked)
+    }
+  })
 }
 
 </script>

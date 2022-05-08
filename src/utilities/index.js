@@ -21,3 +21,11 @@ export const decrypt = (salt, encoded) => {
         .map((charCode) => String.fromCharCode(charCode))
         .join("");
 };
+
+export const resetStore = ({ store }) => {
+    const cloneDeep = (object)=> JSON.parse(JSON.stringify(object));
+    const initialState = cloneDeep(store.$state);
+    store.$reset = () => {
+        store.$patch(cloneDeep(initialState))
+    }
+}

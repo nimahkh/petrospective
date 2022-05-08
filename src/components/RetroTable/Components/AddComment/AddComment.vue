@@ -82,13 +82,17 @@ const storeComment = () => {
       id: props.tableId
     },
     comment: comment.value,
-    user_name: useUser()?.name
+    user_name: useUser()?.name,
+    user_id: useUser().user_id,
+    avatar: useUser().avatar,
   }
   const data={
     room_id: route.params?.room_name,
     category: props.tableId,
     comment: comment.value,
-    user: useUser()?.name
+    user: useUser()?.name,
+    user_id: useUser().user_id,
+    avatar: useUser().avatar,
   };
   store.addComment({commentData, data})
 }
@@ -105,5 +109,6 @@ const addComment= (e)=>{
   removeEditorValue();
   closeEditor()
 }
+
 
 </script>

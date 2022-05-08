@@ -1,20 +1,17 @@
 <template>
-  <div
+  <CommentItem
     v-for="item in store.getItemsByTitleID(tableId)"
     :key="item"
-    class="bg-white p-2 rounded mt-2 border-b rounded-lg border-gray cursor-pointer hover:bg-gray-lighter"
-  >
-    <CommentItem
-      :item="item"
-      :is-unmasked="is_unmasked"/>
-  </div>
+    :item="item"
+    :is-unmasked="is_unmasked"
+  />
 </template>
 
 <script setup>
 import {useTables} from "../../store";
 import {defineProps, onMounted, onUnmounted, toRefs} from "vue";
 import socket from "@/socket/index.js"
-import {useUser, useRoom} from "../../../store";
+import {useUser, useRoom} from "@/components/store";
 import {useRoute} from "vue-router";
 import CommentItem from "./CommentItem.vue"
 
@@ -38,7 +35,8 @@ const fetchCommentsRealtime=(e)=>{
       id: props.tableId
     },
     comment : commentItem.comment,
-    user_name : commentItem.user
+    user_name : commentItem.user,
+    avatar: commentItem.avatar
   }
   if(dataValid(commentItem)) {
     store.$state.comments.push(newComment)
@@ -46,7 +44,7 @@ const fetchCommentsRealtime=(e)=>{
 }
 
 const dataValid = (commentItem)=>{
-  return props.tableId === commentItem.category && commentItem.user !== useUser()?.name && commentItem.room_id === route.params?.room_name;
+  return props.tableId === commentItem.category && commentItem.user_id !== useUser()?.user_id && commentItem.room_id === route.params?.room_name;
 }
 
 onMounted(()=>{

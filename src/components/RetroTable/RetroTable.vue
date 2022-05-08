@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-lg bg-gray-700 flex-no-shrink p-2 mr-3">
+  <div class="rounded-lg bg-gray-700 flex-no-shrink p-2">
     <div class="flex justify-between py-1">
       <div
         :contenteditable="state.owner"

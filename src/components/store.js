@@ -7,6 +7,8 @@ export const useUser = defineStore('user', {
             name: '',
             room_name: '',
             room_hash: '',
+            user_id: '',
+            avatar: ''
         }
     },
 })
@@ -26,6 +28,6 @@ export const useRoom = defineStore('room', {
     actions: {
         setUnMasked(value) {
             this.is_unmasked = value;
-        }
+        },
     }
 })
