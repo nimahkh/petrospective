@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.headers.common['x-apikey']= '626576aafcf9897eb1119eab';
+axios.defaults.headers.common['x-apikey']= process.env.VUE_APP_RESTDB_API_KEY;
 
 const baseurl = 'https://petrospective-7d77.restdb.io/rest'
 
