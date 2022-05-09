@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "npm run build",
-    "start": "pm2 start ecosystem.config.js --env production --deep-monitoring -i max",
+    "start": "vue-cli-service serve",
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
